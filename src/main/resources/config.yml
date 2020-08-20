@@ -1,0 +1,8 @@
+permission-reload: "avpn.reload"
+permission-bypass: "avpn.bypass"
+block-message: "Vpn nie jest dozwolony"
+
+#If false whitelist is a blacklist
+whitelist: false
+countries:
+  #- DE
