@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,10 +19,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public final class Main extends JavaPlugin implements Listener, CommandExecutor {
-    String[] a = null;
-    String[] b = null;
+    String[] a;
+    String[] b;
 
     @Override
     public void onEnable() {
@@ -39,7 +41,6 @@ public final class Main extends JavaPlugin implements Listener, CommandExecutor 
 
     @Override
     public void onDisable() {
-        a = new String[0];
 
 
     }
@@ -57,35 +58,83 @@ public final class Main extends JavaPlugin implements Listener, CommandExecutor 
 
         return false;
     }
-
     @EventHandler
-    public void Onjoin(PlayerLoginEvent e) throws IOException {
-        if (!e.getPlayer().hasPermission(this.getConfig().getString("permission-bypass"))) {
-            String ip = e.getAddress().getHostAddress();
-            StringBuilder jsonS = new StringBuilder();
-            URL url = new URL("https://get.geojs.io/v1/ip/geo/" + ip + ".json");
-            URLConnection conn = url.openConnection();
-            conn.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String inputLine;
+    public void Onjoin(AsyncPlayerPreLoginEvent e) throws IOException {
+        String ip = e.getAddress().getHostAddress();
+        if(CheckOrg(ip)){
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "");
+            Bukkit.getLogger().info("§4Zablokowano §bORG");
 
-            while ((inputLine = in.readLine()) != null) {
-                jsonS.append(inputLine);
+
+        } else {
+            if(CheckCountry(ip)){
+                e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "");
+                Bukkit.getLogger().info("§4Zablokowano §bkraj");
+
+
             }
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(jsonS.toString(), JsonObject.class);
-            String asn = jsonObject.get("organization_name").getAsString();
-            //String co = jsonObject.get("country_code").getAsString();
+        }
+
+        }
 
 
-            ArrayList<String> aList =
+    public boolean CheckOrg(String ip) throws IOException {
+
+        StringBuilder jsonS = new StringBuilder();
+        URL url = new URL("https://get.geojs.io/v1/ip/geo/" + ip + ".json");
+        URLConnection conn = url.openConnection();
+        conn.connect();
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) {
+            jsonS.append(inputLine);
+        }
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(jsonS.toString(), JsonObject.class);
+        String asn = jsonObject.get("organization_name").getAsString();
+        //String co = jsonObject.get("country_code").getAsString();
+        Bukkit.getLogger().info("§eOrganizacja: §b"+asn);
+      ArrayList<String> aList = new ArrayList<>(Arrays.asList(a));
+
+        in.close();
+        if (aList.contains(asn)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+
+    }
+    public boolean CheckCountry(String ip) throws IOException {
+
+        StringBuilder jsonS = new StringBuilder();
+        URL url = new URL("https://get.geojs.io/v1/ip/geo/" + ip + ".json");
+        URLConnection conn = url.openConnection();
+        conn.connect();
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) {
+            jsonS.append(inputLine);
+        }
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(jsonS.toString(), JsonObject.class);
+        String co = jsonObject.get("country_code").getAsString();
+        Bukkit.getLogger().info("§eKraj: §b"+co);
+
+        in.close();
+
+        return !co.equals("PL");
+/*            ArrayList<String> aList =
                     new ArrayList<>(Arrays.asList(a));
             if (aList.contains(asn)) {
                 e.disallow(PlayerLoginEvent.Result.KICK_OTHER, this.getConfig().getString("block-message"));
-            }
+            }*/
 
-            in.close();
-        }
+
+
 
     }
 
