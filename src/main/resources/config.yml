@@ -1,8 +1,50 @@
-permission-reload: "avpn.reload"
-permission-bypass: "avpn.bypass"
-block-message: "Vpn nie jest dozwolony"
+permission-admin: "avpn.admin"
+
+Messages:
+  block-country: "Your country is not allowed"
+  block-vpn: "VPN is not allowed"
+  block-max-connections: "Max connections per ip"
+  block-ip-list: "Your ip is on blacklist"
+
 
 #If false whitelist is a blacklist
-whitelist: false
-countries:
-  #- DE
+Country:
+  enabled: false
+
+  only-attack: true
+  whitelist: true0
+  list:
+ #- DE
+
+
+#EXPERIMENTAL check player organization asn
+Organization:
+  enabled: true
+  only-attack: true
+
+#Maximum players connected with the same ip
+max-join-per-ip:
+  enabled: false
+  limit: 4
+
+#IP blacklist
+ip-list-block:
+  enabled: true
+
+#check ip from outside api
+api:
+  enabled: true
+
+
+ipsum:
+  enabled: true
+
+#block nick from this list
+block_nick:
+  enabled: true
+  list:
+    -
+
+Detect_attack:
+  min-jps: 5
+
