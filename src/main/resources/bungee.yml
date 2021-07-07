@@ -1,0 +1,4 @@
+name: Anti-vpn
+version: ${project.version}
+main: pl.koloksk.Bungee.Main
+author: koloksk

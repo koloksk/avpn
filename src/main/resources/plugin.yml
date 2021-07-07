@@ -1,6 +1,6 @@
 name: Anti-vpn
 version: ${project.version}
-main: pl.koloksk.Main
+main: pl.koloksk.Bukkit.Main
 author: koloksk
 commands:
   avpn:

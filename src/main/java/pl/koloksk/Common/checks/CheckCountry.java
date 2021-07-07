@@ -1,10 +1,10 @@
-package pl.koloksk.modules;
+package pl.koloksk.Common.checks;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
-import pl.koloksk.Main;
+import pl.koloksk.Bukkit.Main;
 
 import java.io.IOException;
 import java.net.InetAddress;

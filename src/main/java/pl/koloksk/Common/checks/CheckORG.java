@@ -1,9 +1,10 @@
-package pl.koloksk.modules;
+package pl.koloksk.Common.checks;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AsnResponse;
-import pl.koloksk.Main;
+import pl.koloksk.Bukkit.Main;
+import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,7 +18,7 @@ public class CheckORG {
 
             AsnResponse response = reader.asn(ipAddress);
             String out = response.getAutonomousSystemNumber().toString();
-            return Main.ASN_List.contains(out);
+            return StoreData.ASN_List.contains(out);
         } catch (GeoIp2Exception e) {
             return false;
         }

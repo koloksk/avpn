@@ -1,4 +1,6 @@
-permission-admin: "avpn.admin"
+permissions:
+  admin: "avpn.admin"
+  bypass: "avpn.bypass"
 
 Messages:
   block-country: "Your country is not allowed"
@@ -12,7 +14,7 @@ Country:
   enabled: false
 
   only-attack: true
-  whitelist: true0
+  whitelist: true
   list:
  #- DE
 
@@ -47,4 +49,5 @@ block_nick:
 
 Detect_attack:
   min-jps: 5
+Debug: false
 

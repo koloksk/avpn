@@ -1,8 +1,8 @@
-package pl.koloksk.modules;
+package pl.koloksk.Common.checks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import pl.koloksk.Main;
+import pl.koloksk.Bukkit.Main;
 
 public class CheckMaxIP {
 

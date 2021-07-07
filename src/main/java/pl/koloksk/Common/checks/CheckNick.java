@@ -1,6 +1,6 @@
-package pl.koloksk.modules;
+package pl.koloksk.Common.checks;
 
-import pl.koloksk.Main;
+import pl.koloksk.Bukkit.Main;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
