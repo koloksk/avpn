@@ -4,6 +4,7 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
+import org.bukkit.Bukkit;
 import pl.koloksk.Bukkit.Main;
 
 import java.io.IOException;
@@ -18,8 +19,8 @@ public class CheckCountry {
 
             CountryResponse response = reader.country(ipAddress);
             Country country = response.getCountry();
-
             String co = country.getIsoCode();
+            Bukkit.getLogger().info(ip +"/"+co);
             return !Main.Country_list.contains(co);
         } catch (GeoIp2Exception e) {
             return false;

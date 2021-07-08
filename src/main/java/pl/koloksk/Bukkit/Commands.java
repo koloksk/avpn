@@ -36,7 +36,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(String.valueOf(StoreData.ASN_List));
                 sender.sendMessage(String.valueOf(plugin.getConfig().getStringList("Country.list")));
 
-            } else if (args[0].equals("info")) {
+            } else if (args[0].equals("info") && !args[1].isEmpty()) {
                 String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
                 sender.sendMessage("ip:" + ip);
                 sender.sendMessage("Country: " + InfoUtils.getCountry(ip));
@@ -44,6 +44,9 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage("City: " + InfoUtils.getCity(ip));
                 sender.sendMessage("ORG: " + InfoUtils.getORG(ip));
 
+            }
+            else if (args[0].equals("stats")) {
+                sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
             }
 
             return false;

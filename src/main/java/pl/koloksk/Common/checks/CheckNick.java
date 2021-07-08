@@ -1,17 +1,11 @@
 package pl.koloksk.Common.checks;
 
-import pl.koloksk.Bukkit.Main;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import pl.koloksk.Common.utils.StoreData;
 
 public class CheckNick {
-    public static boolean check(String nick, Main plugin){
-            for(String regex: plugin.getConfig().getStringList("block_nick.list")) {
-                Pattern pattern = Pattern.compile(nick, Pattern.CASE_INSENSITIVE);
-                Matcher matcher = pattern.matcher(regex);
-                boolean matchFound = matcher.find();
-                if (matchFound) {
+    public static boolean check(String nick){
+            for(String regex: StoreData.blockedNicks) {
+                if(nick.contains(regex)){
                     return true;
                 }
             }

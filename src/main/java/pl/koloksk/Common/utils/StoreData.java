@@ -8,5 +8,7 @@ public class StoreData {
     public static List<String> listaip = new ArrayList<>();
     public static int ilosc_polaczen = 0;
 
+    public static int blocked;
 
+    public static List<String> blockedNicks;
 }

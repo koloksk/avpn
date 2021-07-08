@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import pl.koloksk.Common.checks.*;
+import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,10 +17,12 @@ public class Check {
 
         switch(a) {
             case 1:
-                if (CheckORG.check(ip) && config.getBoolean("Organization.enabled")) {
+                Bukkit.broadcastMessage(e.getName());
+                if (CheckNick.check(e.getName()) && config.getBoolean("block_nick.enabled")) {
                     e.disallow(kick, config.getString("Messages.block-vpn"));
+                    StoreData.blocked++;
                     if (config.getBoolean("Debug"))
-                        Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bORG (" + ip + ")");
+                        Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bNICK (" + ip + ")");
                     break;
 
                     //punish(ip);
@@ -29,10 +32,26 @@ public class Check {
 
                 }
             case 2:
+                if (CheckORG.check(ip) && config.getBoolean("Organization.enabled")) {
+                    e.disallow(kick, config.getString("Messages.block-vpn"));
+                    StoreData.blocked++;
+                    if (config.getBoolean("Debug"))
+                        Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bORG (" + ip + ")");
+                    break;
+
+                    //punish(ip);
+                } else {
+                    Check(3, ip, e);
+                    break;
+
+                }
+            case 3:
                 if (CheckCountry.check(ip) && config.getBoolean("Country.enabled")) {
                     if (config.getBoolean("Country.only-attack")) {
                         if (Main.attack) {
                             e.disallow(kick, config.getString("Messages.block-country"));
+                            StoreData.blocked++;
+
                             if (config.getBoolean("Debug"))
                                 Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bkraj (" + ip + ")");
                             break;
@@ -40,6 +59,8 @@ public class Check {
                         }
                     } else {
                         e.disallow(kick, config.getString("Messages.block-country"));
+                        StoreData.blocked++;
+
                         if (config.getBoolean("Debug"))
                             Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bkraj (" + ip + ")");
                         //punish(ip);
@@ -47,14 +68,16 @@ public class Check {
 
                     }
                 } else {
-                    Check(3, ip, e);
+                    Check(4, ip, e);
                     break;
                 }
-            case 3:
+            case 4:
                 if (CheckMaxIP.check(e.getAddress().getHostName(), plugin) && config.getBoolean("max-join-per-ip.enabled")) {
                     if (config.getBoolean("max-join-per-ip.only-attack")) {
                         if (Main.attack) {
                             e.disallow(kick, config.getString("Messages.block-max-connections"));
+                            StoreData.blocked++;
+
                             if (config.getBoolean("Debug"))
                                 Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bmax-ip (" + ip + ")");
                             break;
@@ -62,31 +85,10 @@ public class Check {
                         }
                     } else {
                         e.disallow(kick, config.getString("Messages.block-max-connections"));
+                        StoreData.blocked++;
+
                         if (config.getBoolean("Debug"))
                             Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bmax-ip (" + ip + ")");
-                        //punish(ip);
-                        break;
-
-                    }
-                } else {
-                    Check(4, ip, e);
-                    break;
-
-                }
-            case 4:
-                if (CheckIPblacklist.check(ip) && config.getBoolean("ip-list-block.enabled")) {
-                    if (config.getBoolean("ip-list-block.only-attack")) {
-                        if (Main.attack) {
-                            e.disallow(kick, config.getString("Messages.block-ip-list"));
-                            if (config.getBoolean("Debug"))
-                                Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bproxy-list (" + ip + ")");
-                            break;
-
-                        }
-                    } else {
-                        e.disallow(kick, config.getString("Messages.block-ip-list"));
-                        if (config.getBoolean("Debug"))
-                            Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bproxy-list (" + ip + ")");
                         //punish(ip);
                         break;
 
@@ -97,12 +99,26 @@ public class Check {
 
                 }
             case 5:
-                if (config.getBoolean("api.enabled")) {
-                    if (CheckIpIntel.check(ip)) {
-                        e.disallow(kick, config.getString("Messages.block-vpn"));
-                        Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bAPI (" + ip + ")");
+                if (CheckIPblacklist.check(ip) && config.getBoolean("ip-list-block.enabled")) {
+                    if (config.getBoolean("ip-list-block.only-attack")) {
+                        if (Main.attack) {
+                            e.disallow(kick, config.getString("Messages.block-ip-list"));
+                            StoreData.blocked++;
+
+                            if (config.getBoolean("Debug"))
+                                Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bproxy-list (" + ip + ")");
+                            break;
+
+                        }
+                    } else {
+                        e.disallow(kick, config.getString("Messages.block-ip-list"));
+                        StoreData.blocked++;
+
+                        if (config.getBoolean("Debug"))
+                            Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bproxy-list (" + ip + ")");
                         //punish(ip);
                         break;
+
                     }
                 } else {
                     Check(6, ip, e);
@@ -111,8 +127,27 @@ public class Check {
                 }
             case 6:
                 if (config.getBoolean("api.enabled")) {
+                    if (CheckIpIntel.check(ip)) {
+                        e.disallow(kick, config.getString("Messages.block-vpn"));
+                        StoreData.blocked++;
+                        if (config.getBoolean("Debug")) {
+
+                            Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bAPI (" + ip + ")");
+                        }
+                        //punish(ip);
+                        break;
+                    }
+                } else {
+                    Check(7, ip, e);
+                    break;
+
+                }
+            case 7:
+                if (config.getBoolean("api.enabled")) {
                     if (CheckVPNapi.check(ip)) {
                         e.disallow(kick, config.getString("Messages.block-vpn"));
+                        StoreData.blocked++;
+
                         Bukkit.getLogger().log(Level.INFO, "§4Zablokowano §bAPI (" + ip + ")");
                         //punish(ip);
                         break;

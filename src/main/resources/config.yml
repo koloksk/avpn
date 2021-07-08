@@ -45,9 +45,16 @@ ipsum:
 block_nick:
   enabled: true
   list:
-    -
+    - "mcstorm"
+    - "mcspam"
+    - "mcdrop"
+    - "bot"
+    - "spam"
+    - "spammer"
 
 Detect_attack:
   min-jps: 5
 Debug: false
+stats:
+  blocked: 0
 
