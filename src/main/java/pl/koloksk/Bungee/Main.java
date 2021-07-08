@@ -1,19 +1,14 @@
 package pl.koloksk.Bungee;
 
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.event.EventHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import static pl.koloksk.Common.utils.StoreData.ilosc_polaczen;
-
-public class Main extends Plugin implements Listener {
+public class Main extends Plugin {
     public static ProxyServer instance;
     public static Plugin plugin;
 
@@ -51,8 +46,5 @@ public class Main extends Plugin implements Listener {
     public static Plugin getPlugin(){
         return plugin;
     }
-    @EventHandler
-    public void onPostLogin(PostLoginEvent e) {
-        ilosc_polaczen++;
-    }
+
 }

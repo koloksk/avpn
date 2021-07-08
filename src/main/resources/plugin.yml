@@ -2,5 +2,7 @@ name: Anti-vpn
 version: ${project.version}
 main: pl.koloksk.Bukkit.Main
 author: koloksk
+softdepend:
+  - AuthMe
 commands:
   avpn:

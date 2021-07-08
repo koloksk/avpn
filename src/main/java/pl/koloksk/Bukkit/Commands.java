@@ -4,16 +4,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.StoreData;
 
 public class Commands implements CommandExecutor {
     public static Main plugin;
-    public Commands(Main pl){
+
+    public Commands(Main pl) {
         plugin = pl;
     }
+
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (sender.hasPermission(plugin.getConfig().getString("permission-admin"))) {
-            if (args[0].equals("reload")) {
+            if (args.length < 1) {
+                sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
+                sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn list - list blocked asn");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn info <player> - advanced info about player");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn transfer");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn checkip");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn notif");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
+                sender.sendMessage("");
+                sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
+            } else if (args[0].equals("reload")) {
                 LoadDB.loaddb();
                 plugin.reloadConfig();
                 sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
@@ -22,13 +37,17 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(String.valueOf(plugin.getConfig().getStringList("Country.list")));
 
             } else if (args[0].equals("info")) {
-                sender.sendMessage(String.valueOf(Bukkit.getPlayer(args[1]).getAddress()));
-            } else {
-                sender.sendMessage("/avpn reload");
+                String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
+                sender.sendMessage("ip:" + ip);
+                sender.sendMessage("Country: " + InfoUtils.getCountry(ip));
+                sender.sendMessage("Country Name: " + InfoUtils.getCountryName(ip));
+                sender.sendMessage("City: " + InfoUtils.getCity(ip));
+                sender.sendMessage("ORG: " + InfoUtils.getORG(ip));
 
             }
-        }
 
+            return false;
+        }
         return false;
     }
 }
