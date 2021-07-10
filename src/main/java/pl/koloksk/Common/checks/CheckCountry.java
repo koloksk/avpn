@@ -6,6 +6,7 @@ import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
 import org.bukkit.Bukkit;
 import pl.koloksk.Bukkit.Main;
+import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,8 +21,8 @@ public class CheckCountry {
             CountryResponse response = reader.country(ipAddress);
             Country country = response.getCountry();
             String co = country.getIsoCode();
-            Bukkit.getLogger().info(ip +"/"+co);
-            return !Main.Country_list.contains(co);
+            //Bukkit.getLogger().info(ip +"/"+co);
+            return !StoreData.Country_list.contains(co);
         } catch (GeoIp2Exception e) {
             return false;
         }

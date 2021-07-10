@@ -2,6 +2,7 @@ package pl.koloksk.Common.utils;
 
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.LifeCycle;
@@ -109,5 +110,14 @@ public class LogFilter implements Filter {
 
     public Filter.Result filter(Logger paramLogger, Level paramLevel, Marker paramMarker, String paramString, Object paramObject1, Object paramObject2, Object paramObject3, Object paramObject4, Object paramObject5, Object paramObject6, Object paramObject7, Object paramObject8, Object paramObject9, Object paramObject10) {
         return null;
+    }
+
+    public static void enableFilter(){
+        Logger logger = (Logger) LogManager.getRootLogger();
+        logger.addFilter(new LogFilter());
+    }
+    public static void disableFilter(){
+        Logger logger = (Logger) LogManager.getRootLogger();
+        logger.addFilter(null);
     }
 }

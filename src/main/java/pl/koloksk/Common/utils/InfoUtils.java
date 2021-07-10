@@ -6,6 +6,7 @@ import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
+import org.bukkit.Bukkit;
 import pl.koloksk.Bukkit.Main;
 
 import java.io.IOException;
@@ -20,8 +21,7 @@ public class InfoUtils {
             CountryResponse response = reader.country(ipAddress);
             Country country = response.getCountry();
 
-            String co = country.getIsoCode();
-            return co;
+            return country.getIsoCode();
         } catch (GeoIp2Exception | IOException e) {
             e.printStackTrace();
         }
@@ -35,8 +35,7 @@ public class InfoUtils {
             CountryResponse response = reader.country(ipAddress);
             Country country = response.getCountry();
 
-            String co = country.getName();
-            return co;
+            return country.getName();
         }catch (GeoIp2Exception | IOException e) {
             e.printStackTrace();
         }
@@ -50,8 +49,7 @@ public class InfoUtils {
             InetAddress ipAddress = InetAddress.getByName(ip);
 
             AsnResponse response = reader.asn(ipAddress);
-            String out = response.getAutonomousSystemOrganization();
-            return out;
+            return response.getAutonomousSystemOrganization();
         } catch (GeoIp2Exception | IOException e) {
             e.printStackTrace();
         }
@@ -64,11 +62,15 @@ public class InfoUtils {
             InetAddress ipAddress = InetAddress.getByName(ip);
 
             CityResponse response = reader.city(ipAddress);
-            String out = response.getCity().getName();
-            return out;
+            return response.getCity().getName();
         } catch (GeoIp2Exception | IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+    public static void blockedInfo(String ip, String method){
+        if(Main.getinstance().getConfig().getBoolean("Debug")){
+            Bukkit.getLogger().info("[AVPN] Zablokowano ip "+ip+ " metoda "+method+ "  ("+StoreData.blocked+")");
+        }
     }
 }

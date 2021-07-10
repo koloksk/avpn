@@ -47,6 +47,7 @@ public class Commands implements CommandExecutor {
             }
             else if (args[0].equals("stats")) {
                 sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
+                sender.sendMessage(String.valueOf(StoreData.AttackJoin));
             }
 
             return false;

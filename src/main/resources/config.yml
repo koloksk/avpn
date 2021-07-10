@@ -1,28 +1,30 @@
+##-----------PERMISSIONS
 permissions:
   admin: "avpn.admin"
   bypass: "avpn.bypass"
 
+##-----------MESSAGES
 Messages:
   block-country: "Your country is not allowed"
   block-vpn: "VPN is not allowed"
   block-max-connections: "Max connections per ip"
   block-ip-list: "Your ip is on blacklist"
 
-
+##-----------COUNTRY CHECK
 #If false whitelist is a blacklist
 Country:
   enabled: false
-
   only-attack: true
   whitelist: true
   list:
  #- DE
 
-
+##-----------ISN CHECK
 #EXPERIMENTAL check player organization asn
 Organization:
   enabled: true
   only-attack: true
+
 
 #Maximum players connected with the same ip
 max-join-per-ip:
@@ -33,6 +35,7 @@ max-join-per-ip:
 ip-list-block:
   enabled: true
 
+##-----------API CHECK
 #check ip from outside api
 api:
   enabled: true
@@ -41,7 +44,8 @@ api:
 ipsum:
   enabled: true
 
-#block nick from this list
+
+##-----------NICK CHECK
 block_nick:
   enabled: true
   list:

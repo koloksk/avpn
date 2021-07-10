@@ -1,7 +1,6 @@
 package pl.koloksk.Bukkit;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.koloksk.Common.utils.StoreData;
 
@@ -51,7 +50,7 @@ public class LoadDB {
 
     }
     public static void getIpfromApi(String link) {
-        Bukkit.getScheduler().runTaskAsynchronously((Plugin) plugin, new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 try {
@@ -72,7 +71,7 @@ public class LoadDB {
     }
 
     public static void getIpfromApi1(String link) {
-        Bukkit.getScheduler().runTaskAsynchronously((Plugin) plugin, new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 try {
