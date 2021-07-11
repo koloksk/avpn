@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import pl.koloksk.Common.utils.InfoUtils;
+import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
 
 public class Commands implements CommandExecutor {
@@ -15,7 +16,7 @@ public class Commands implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.hasPermission(plugin.getConfig().getString("permission-admin"))) {
+        if (sender.hasPermission(Settings.permissions_admin)) {
             if (args.length < 1) {
                 sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
                 sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
@@ -34,7 +35,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
             } else if (args[0].equals("list")) {
                 sender.sendMessage(String.valueOf(StoreData.ASN_List));
-                sender.sendMessage(String.valueOf(plugin.getConfig().getStringList("Country.list")));
+                sender.sendMessage(String.valueOf(Settings.contry_list));
 
             } else if (args[0].equals("info") && !args[1].isEmpty()) {
                 String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
@@ -47,7 +48,7 @@ public class Commands implements CommandExecutor {
             }
             else if (args[0].equals("stats")) {
                 sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
-                sender.sendMessage(String.valueOf(StoreData.AttackJoin));
+                //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
             }
 
             return false;

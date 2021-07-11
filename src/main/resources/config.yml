@@ -4,24 +4,24 @@ permissions:
   bypass: "avpn.bypass"
 
 ##-----------MESSAGES
-Messages:
-  block-country: "Your country is not allowed"
-  block-vpn: "VPN is not allowed"
-  block-max-connections: "Max connections per ip"
-  block-ip-list: "Your ip is on blacklist"
+messages:
+  country: "Your country is not allowed"
+  vpn: "VPN is not allowed"
+  max-connections: "Max connections per ip"
+  ip-list: "Your ip is on blacklist"
 
 ##-----------COUNTRY CHECK
 #If false whitelist is a blacklist
-Country:
+country:
   enabled: false
   only-attack: true
   whitelist: true
   list:
  #- DE
 
-##-----------ISN CHECK
+##-----------ASN CHECK
 #EXPERIMENTAL check player organization asn
-Organization:
+asn:
   enabled: true
   only-attack: true
 
@@ -32,16 +32,13 @@ max-join-per-ip:
   limit: 4
 
 #IP blacklist
-ip-list-block:
+ip-list:
   enabled: true
+  only-attack: true
+
 
 ##-----------API CHECK
-#check ip from outside api
 api:
-  enabled: true
-
-
-ipsum:
   enabled: true
 
 
@@ -56,8 +53,18 @@ block_nick:
     - "spam"
     - "spammer"
 
-Detect_attack:
+detect_attack:
   min-jps: 5
+
+integrations:
+  authme:
+    enabled: false  #When attack is detected no registered players are not allowed to join.
+    kick: "Saerver is attacked, wait a few minutes and connect again"
+  discord:
+    enabled: false
+    webhook-url: ''
+
+
 Debug: false
 stats:
   blocked: 0

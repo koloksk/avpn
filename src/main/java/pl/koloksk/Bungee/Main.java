@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import static pl.koloksk.Common.utils.Settings.*;
+
 public class Main extends Plugin {
     public static ProxyServer instance;
     public static Plugin plugin;
@@ -22,12 +24,8 @@ public class Main extends Plugin {
         // BungeeCord already does so
         instance = getProxy();
         plugin = this;
-
+        StoreData.bungeeEnabled = true;
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new Commands("avpn", this));
-        LoadDB.loaddb(getProxy(), this);
-        loadConfig();
-
-
 
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
@@ -42,6 +40,11 @@ public class Main extends Plugin {
                 e.printStackTrace();
             }
         }
+
+
+        LoadDB.loaddb(getProxy(), this);
+        loadConfig();
+
         LoadDB.downloaddb();
     }
     public static ProxyServer getinstance(){
@@ -56,8 +59,49 @@ public class Main extends Plugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        StoreData.Country_list = config.getStringList("Country.list");
-        StoreData.blockedNicks = config.getStringList("block_nick.list");
+        settings();
+
+    }
+
+    public void settings() {
+        permissions_admin = config.getString("permissions.admin");
+        permissions_bypass = config.getString("permissions.bypass");
+
+        Messages_country = config.getString("messages.country");
+        Messages_vpn = config.getString("messages.vpn");
+        Messages_maxip = config.getString("messages.max-connections");
+        Messages_iplist = config.getString("messages.iplist");
+
+
+        contry_enabled = config.getBoolean("country.enabled");
+        contry_attack = config.getBoolean("country.only-attack");
+        contry_whitelist = config.getBoolean("country.whitelist");
+        contry_list = config.getStringList("country.list");
+
+        asn_enabled = config.getBoolean("asn.enabled");
+        asn_attack = config.getBoolean("asn.only-attack");;
+
+        maxip_enabled = config.getBoolean("max-join-per-ip.enabled");
+        maxip_limit = config.getInt("max-join-per-ip.limit");;
+
+        iplist_enabled = config.getBoolean("ip-list.enabled");
+        iplist_attack = config.getBoolean("ip-list.only-attack");
+
+
+        api_enabled = config.getBoolean("api.enabled");
+
+        blocknick_enabled = config.getBoolean("block_nick.enabled");
+        blocknick_list = config.getStringList("block_nick.list");;
+
+        detect_minjps = config.getInt("detect_attack.min-jps");
+
+        integration_authme_enabled = config.getBoolean("integrations.authme.enabled");
+        integration_authme_kick = config.getString("integrations.authme.kick");
+
+        integration_discord_enabled = config.getBoolean("integrations.discord.enabled");
+        integration_discord_url = config.getString("integrations.discord.webhook-url");
+
+        debug = config.getBoolean("Debug");
 
     }
 }

@@ -44,9 +44,8 @@ public class LoadDB {
         getIpfromApi("https://www.proxyscan.io/download?type=socks4");
         getIpfromApi("https://www.proxyscan.io/download?type=socks5");
         getIpfromApi("https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt");
-        if (plugin.getConfig().getBoolean("ipsum.enabled"))
-            getIpfromApi1("https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt");
-            getIpfromApi1("https://plugins.maner.fr/MBanProxyVPN/badip.txt");
+        getIpfromApi1("https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt");
+        getIpfromApi1("https://plugins.maner.fr/MBanProxyVPN/badip.txt");
 
     }
     public static void getIpfromApi(String link) {
@@ -92,6 +91,7 @@ public class LoadDB {
             }
         });
     }
+
     public static void downloaddb() {
         new BukkitRunnable() {
             @Override
