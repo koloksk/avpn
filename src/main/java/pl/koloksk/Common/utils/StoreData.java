@@ -12,6 +12,10 @@ public class StoreData {
 
     public static boolean bungeeEnabled = false;
 
+    public static boolean fastAttack = false;
+    public static boolean slowAttack = false;
+
+
 
     public static int blocked;
 

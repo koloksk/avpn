@@ -15,12 +15,14 @@ public class fastAttack {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (ilosc_polaczen / 2 > detect_minjps && !attack) {
+                if (ilosc_polaczen / 2 > detect_minjps && !attack && !StoreData.slowAttack) {
                     attack = true;
+                    StoreData.fastAttack = true;
                     Bukkit.broadcastMessage("Serwer jest atakowany!!!");
                     LogFilter.enableFilter();
-                } else if (ilosc_polaczen / 2 < detect_minjps && attack) {
+                } else if (ilosc_polaczen / 2 < detect_minjps && attack && !StoreData.slowAttack) {
                     attack = false;
+                    StoreData.fastAttack = false;
                     Bukkit.broadcastMessage("Serwer nie jest już atakowany");
                     LogFilter.disableFilter();
                     StoreData.AttackJoin.clear();

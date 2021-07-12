@@ -73,8 +73,8 @@ public class Main extends JavaPlugin {
 
     public void loadConfig() {
         StoreData.blocked = this.getConfig().getInt("stats.blocked");
+        saveDefaultConfig();
         getConfig().options().copyDefaults(true);
-        saveConfig();
         settings();
 
 
