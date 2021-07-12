@@ -4,21 +4,18 @@ package pl.koloksk.Bukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import pl.koloksk.Bukkit.Detection.fastAttack;
+import pl.koloksk.Bukkit.Detection.slowAttack;
 import pl.koloksk.Bukkit.Listeners.AsyncPlayerPreLoginEvent;
 import pl.koloksk.Common.Metrics.Metrics;
-import pl.koloksk.Common.utils.LogFilter;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.File;
 
 import static pl.koloksk.Common.utils.Settings.*;
-import static pl.koloksk.Common.utils.StoreData.ilosc_polaczen;
 
 
 //TODO
-// - auto download country database
-// - auto download asn database -
-// - block nicknames template
 // - auto update checks
 // - iptables integration
 // - console filter
@@ -31,7 +28,6 @@ public class Main extends JavaPlugin {
     public static File orgdatabase = new File("plugins/Anti-vpn/GeoLite2-ASN.mmdb");
     public static File codatabase = new File("plugins/Anti-vpn/GeoLite2-Country.mmdb");
 
-    public static boolean attack = false;
     public static Main plugin;
     @Override
     public void onEnable() {
@@ -48,7 +44,6 @@ public class Main extends JavaPlugin {
         //Bukkit.getPluginManager().registerEvents(new PlayerLoginEvent(), this);
 
         this.getCommand("avpn").setExecutor(new Commands(this));
-        StoreData.blocked = this.getConfig().getInt("stats.blocked");
         loadConfig();
         new BukkitRunnable() {
             @Override
@@ -62,8 +57,8 @@ public class Main extends JavaPlugin {
 
             }
         }.runTaskAsynchronously(this);
-
-        checkattack();
+        fastAttack.check();
+        slowAttack.check();
 
 
     }
@@ -73,32 +68,11 @@ public class Main extends JavaPlugin {
         saveConfig();
     }
 
-    public void checkattack(){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (ilosc_polaczen / 2 > detect_minjps && !attack) {
-                    attack = true;
-                    Bukkit.broadcastMessage("Serwer jest atakowany!!!");
-                    LogFilter.enableFilter();
-                } else if (ilosc_polaczen / 2 < detect_minjps && attack) {
-                    attack = false;
-                    Bukkit.broadcastMessage("Serwer nie jest już atakowany");
-                    LogFilter.disableFilter();
-                    StoreData.AttackJoin.clear();
-                }
-                if (attack)
-                    Bukkit.broadcastMessage("Ilosc polaczen na sek: " + ilosc_polaczen / 2 + "/s");
-                ilosc_polaczen = 0;
 
-
-            }
-        }.runTaskTimerAsynchronously(this, 20L, 20 * 2);
-
-    }
 
 
     public void loadConfig() {
+        StoreData.blocked = this.getConfig().getInt("stats.blocked");
         getConfig().options().copyDefaults(true);
         saveConfig();
         settings();
@@ -121,10 +95,10 @@ public class Main extends JavaPlugin {
         contry_list = getConfig().getStringList("country.list");
 
         asn_enabled = getConfig().getBoolean("asn.enabled");
-        asn_attack = getConfig().getBoolean("asn.only-attack");;
+        asn_attack = getConfig().getBoolean("asn.only-attack");
 
         maxip_enabled = getConfig().getBoolean("max-join-per-ip.enabled");
-        maxip_limit = getConfig().getInt("max-join-per-ip.limit");;
+        maxip_limit = getConfig().getInt("max-join-per-ip.limit");
 
         iplist_enabled = getConfig().getBoolean("ip-list.enabled");
         iplist_attack = getConfig().getBoolean("ip-list.only-attack");
@@ -133,7 +107,7 @@ public class Main extends JavaPlugin {
         api_enabled = getConfig().getBoolean("api.enabled");
 
         blocknick_enabled = getConfig().getBoolean("block_nick.enabled");
-        blocknick_list = getConfig().getStringList("block_nick.list");;
+        blocknick_list = getConfig().getStringList("block_nick.list");
 
         detect_minjps = getConfig().getInt("detect_attack.min-jps");
 
@@ -146,21 +120,6 @@ public class Main extends JavaPlugin {
         debug = getConfig().getBoolean("Debug");
 
     }
-
-
-
-
-
-
-/*    public void punish(String ip) {
-        List<String> words = this.getConfig().getStringList("Lista");
-        words.add(ip);
-        this.getConfig().set("Lista", words);
-
-    }*/
-
-
-
 
 
     public static Main getinstance(){

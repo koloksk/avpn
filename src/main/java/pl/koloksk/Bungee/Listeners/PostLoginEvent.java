@@ -16,7 +16,7 @@ public class PostLoginEvent implements Listener {
         String ip = e.getPlayer().getAddress().getHostName();
         String nick = e.getPlayer().getName();
         ilosc_polaczen++;
-        if(Main.attack) {
+        if(StoreData.attack) {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
         }

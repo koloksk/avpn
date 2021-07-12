@@ -17,7 +17,7 @@ public class LogFilter implements Filter {
 
     public Filter.Result filter(LogEvent paramLogEvent) {
         Filter.Result result = Filter.Result.ACCEPT;
-        if (Main.attack = false)
+        if (StoreData.attack = false)
             return result;
         String str = paramLogEvent.getMessage().getFormattedMessage().toLowerCase();
         byte b;

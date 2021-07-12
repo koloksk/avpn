@@ -4,6 +4,7 @@ import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.checks.*;
 import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class Check {
 
             //punish(ip);
         } else if (CheckORG.check(ip) && Settings.asn_enabled) {
-            if (Settings.asn_attack && Main.attack) {
+            if (Settings.asn_attack && StoreData.attack) {
                 InfoUtils.blockedInfo(ip, "ASN");
                 return true;
             } else {
@@ -27,7 +28,7 @@ public class Check {
             }
             //punish(ip);
         } else if (CheckCountry.check(ip) && Settings.contry_enabled) {
-            if (Settings.contry_attack && Main.attack) {
+            if (Settings.contry_attack && StoreData.attack) {
                     InfoUtils.blockedInfo(ip, "Country");
                     return true;
             } else {
@@ -40,7 +41,7 @@ public class Check {
 
                 return true;
         } else if (CheckIPblacklist.check(ip) && Settings.iplist_enabled) {
-            if (Settings.iplist_attack && Main.attack) {
+            if (Settings.iplist_attack && StoreData.attack) {
                     InfoUtils.blockedInfo(ip, "BLACKLIST");
                     return true;
             } else {

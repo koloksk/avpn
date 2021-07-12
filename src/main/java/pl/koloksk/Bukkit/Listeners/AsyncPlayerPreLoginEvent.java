@@ -3,8 +3,6 @@ package pl.koloksk.Bukkit.Listeners;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPreLoginEvent;
-import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.Discord.Discord;
 import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
@@ -25,16 +23,12 @@ public class AsyncPlayerPreLoginEvent implements Listener {
 
         ilosc_polaczen++;
 
-        if(Main.attack) {
+        if(StoreData.attack) {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
-        } else {
-            if(Settings.integration_discord_enabled) {
-                Discord.sendDiscord(nick, ip);
-            }
         }
 
-        if(Main.attack && Settings.integration_authme_enabled && !authmeApi.isRegistered(nick)){
+        if(StoreData.attack && Settings.integration_authme_enabled && !authmeApi.isRegistered(nick)){
             e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.integration_authme_kick);
         }
 
@@ -42,8 +36,11 @@ public class AsyncPlayerPreLoginEvent implements Listener {
 
 
             StoreData.blocked++;
+            StoreData.ilosc_blokad++;
             e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "VPN IS NOT ALLOWED");
-
+            if(Settings.integration_discord_enabled && !StoreData.attack) {
+                Discord.sendDiscord(nick, ip);
+            }
 
 
         }
