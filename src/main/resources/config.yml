@@ -52,6 +52,9 @@ block_nick:
     - "bot"
     - "spam"
     - "spammer"
+    - "CPROXY_"
+    - "ttproxy"
+    - "AirProxy_"
 
 detect_attack:
   min-jps: 5

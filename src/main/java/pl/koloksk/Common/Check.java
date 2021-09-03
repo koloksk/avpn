@@ -1,6 +1,5 @@
 package pl.koloksk.Common;
 
-import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.checks.*;
 import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.Settings;
@@ -55,7 +54,6 @@ public class Check {
                 return true;
 
             }
-        } else if (Settings.api_enabled) {
             if (CheckVPNapi.check(ip)) {
 
                 InfoUtils.blockedInfo(ip, "API-2");
@@ -67,12 +65,11 @@ public class Check {
                 return false;
 
             }
+
         } else {
             System.out.println("§2Polaczenie zaakceptowane §b (" + ip + ")");
             return false;
         }
-
-        return false;
 
     }
 

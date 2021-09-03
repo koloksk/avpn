@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-
+        Bukkit.getPluginManager().isPluginEnabled("AuthMe");
         int pluginId = 12002; // <-- Replace with the id of your plugin!
         new Metrics(this, pluginId);
 

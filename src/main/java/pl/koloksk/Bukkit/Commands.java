@@ -39,6 +39,7 @@ public class Commands implements CommandExecutor {
 
             } else if (args[0].equals("info") && !args[1].isEmpty()) {
                 String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
+                sender.sendMessage("UUID: "+ Bukkit.getPlayer(args[1]).getUniqueId());
                 sender.sendMessage("ip:" + ip);
                 sender.sendMessage("Country: " + InfoUtils.getCountry(ip));
                 sender.sendMessage("Country Name: " + InfoUtils.getCountryName(ip));

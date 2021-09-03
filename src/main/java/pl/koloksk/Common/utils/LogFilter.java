@@ -9,7 +9,6 @@ import org.apache.logging.log4j.core.LifeCycle;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
-import pl.koloksk.Bukkit.Main;
 
 
 public class LogFilter implements Filter {

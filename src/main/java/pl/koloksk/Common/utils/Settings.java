@@ -15,7 +15,7 @@ public class Settings {
     public static Boolean contry_enabled;
     public static Boolean contry_attack;
     public static Boolean contry_whitelist;
-    public static List contry_list;
+    public static List<String> contry_list;
 
     public static Boolean asn_enabled;
     public static Boolean asn_attack;
