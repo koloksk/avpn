@@ -17,7 +17,7 @@ country:
   only-attack: true
   whitelist: true
   list:
- #- DE
+  - CH
 
 ##-----------ASN CHECK
 #EXPERIMENTAL check player organization asn
@@ -55,6 +55,8 @@ block_nick:
     - "CPROXY_"
     - "ttproxy"
     - "AirProxy_"
+    - "McDown_pw"
+    - "ttp00roxy"
 
 detect_attack:
   min-jps: 5
@@ -62,7 +64,7 @@ detect_attack:
 integrations:
   authme:
     enabled: false  #When attack is detected no registered players are not allowed to join.
-    kick: "Saerver is attacked, wait a few minutes and connect again"
+    kick: "Server is attacked, wait a few minutes and connect again"
   discord:
     enabled: false
     webhook-url: ''

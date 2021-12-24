@@ -55,6 +55,19 @@ public class InfoUtils {
         }
         return null;
     }
+    public static String getASN(String ip){
+
+        try (DatabaseReader reader = new DatabaseReader.Builder(Main.orgdatabase).build()) {
+
+            InetAddress ipAddress = InetAddress.getByName(ip);
+
+            AsnResponse response = reader.asn(ipAddress);
+            return response.getAutonomousSystemNumber().toString();
+        } catch (GeoIp2Exception | IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static String getCity(String ip){
 
         try (DatabaseReader reader = new DatabaseReader.Builder(Main.orgdatabase).build()) {

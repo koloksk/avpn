@@ -9,9 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class CheckVPNapi {
-    public static boolean check(String ip) {
-        if(ip.equals("127.0.0.1"))
-            return false;
+    public static boolean check(String ip) {;
         try {
             StringBuilder jsonS = new StringBuilder();
             URL url = new URL("https://proxycheck.io/v2/" + ip + "?vpn=1");

@@ -39,11 +39,13 @@ public class LoadDB {
         } catch (IOException e) {
             return;
         }
-        getIpfromApi("https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000&country=all");
-        getIpfromApi("https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000&country=all");
+        //getIpfromApi("https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000&country=all");
+        //getIpfromApi("https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000&country=all");
         getIpfromApi("https://www.proxyscan.io/download?type=socks4");
         getIpfromApi("https://www.proxyscan.io/download?type=socks5");
         getIpfromApi("https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt");
+        getIpfromApi("https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt");
+        getIpfromApi("https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks5.txt");
         getIpfromApi1("https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt");
         getIpfromApi1("https://plugins.maner.fr/MBanProxyVPN/badip.txt");
 
@@ -63,7 +65,6 @@ public class LoadDB {
 
                 } catch (IOException ex) {
 
-                    ex.printStackTrace();
                 }
             }
         });

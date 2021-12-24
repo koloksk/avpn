@@ -10,6 +10,9 @@ import java.io.IOException;
 public class Check {
     public static boolean Check(String ip, String name) throws IOException {
 
+        if(ip.equals("127.0.0.1"))
+            return false;
+
         if (CheckNick.check(name) && Settings.blocknick_enabled) {
             InfoUtils.blockedInfo(ip, "NICK");
 

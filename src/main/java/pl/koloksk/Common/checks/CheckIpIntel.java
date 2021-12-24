@@ -10,8 +10,6 @@ import java.net.URLConnection;
 
 public class CheckIpIntel {
     public static boolean check(String ip) {
-        if(ip.equals("127.0.0.1"))
-            return false;
         try {
             StringBuilder jsonS = new StringBuilder();
             URL url = new URL("http://check.getipintel.net/check.php?ip=" + ip + "&format=json&contact=sebastiankwaczala4@gmail.com");

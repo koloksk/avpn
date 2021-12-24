@@ -23,15 +23,14 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn list - list blocked asn");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn info <player> - advanced info about player");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn transfer");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn modules - modules status");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn checkip");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn notif");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
                 sender.sendMessage("");
                 sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
             } else if (args[0].equals("reload")) {
-                LoadDB.loaddb();
-                plugin.reloadConfig();
+                plugin.reloadConfiguration();
                 sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
             } else if (args[0].equals("list")) {
                 sender.sendMessage(String.valueOf(StoreData.ASN_List));
@@ -49,6 +48,16 @@ public class Commands implements CommandExecutor {
             }
             else if (args[0].equals("stats")) {
                 sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
+                //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
+            } else if (args[0].equals("modules")) {
+                sender.sendMessage("Api Check: " + Settings.api_enabled);
+                sender.sendMessage("ASN Check: " + Settings.asn_enabled);
+                sender.sendMessage("Nick Check: " + Settings.blocknick_enabled);
+                sender.sendMessage("Country Check: " + Settings.contry_enabled);
+                sender.sendMessage("IP BlackList Check: " + Settings.iplist_enabled);
+                sender.sendMessage("Max Conn Check: " + Settings.maxip_enabled);
+
+
                 //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
             }
 

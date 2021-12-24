@@ -27,12 +27,12 @@ import static pl.koloksk.Common.utils.Settings.*;
 public class Main extends JavaPlugin {
     public static File orgdatabase = new File("plugins/Anti-vpn/GeoLite2-ASN.mmdb");
     public static File codatabase = new File("plugins/Anti-vpn/GeoLite2-Country.mmdb");
-
+    public static boolean AuthmeStatus;
     public static Main plugin;
     @Override
     public void onEnable() {
 
-        Bukkit.getPluginManager().isPluginEnabled("AuthMe");
+        AuthmeStatus = Bukkit.getPluginManager().isPluginEnabled("AuthMe");
         int pluginId = 12002; // <-- Replace with the id of your plugin!
         new Metrics(this, pluginId);
 
@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
         plugin = this;
         Bukkit.getPluginManager().registerEvents(new AsyncPlayerPreLoginEvent(), this);
         //Bukkit.getPluginManager().registerEvents(new PlayerLoginEvent(), this);
-
+        LoadDB.downloaddb();
         this.getCommand("avpn").setExecutor(new Commands(this));
         loadConfig();
         new BukkitRunnable() {
@@ -50,7 +50,7 @@ public class Main extends JavaPlugin {
             public void run() {
                 try {
                     LoadDB.loaddb();
-                    LoadDB.downloaddb();
+
 
                 } catch (NullPointerException ignored) {
                 }
@@ -66,17 +66,22 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         getConfig().set("stats.blocked", StoreData.blocked);
         saveConfig();
+
     }
 
 
 
 
     public void loadConfig() {
-        StoreData.blocked = this.getConfig().getInt("stats.blocked");
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         settings();
+        LoadDB.loaddb();
+    }
 
+    public void reloadConfiguration(){
+        reloadConfig();
+        settings();
 
     }
     public void settings() {
