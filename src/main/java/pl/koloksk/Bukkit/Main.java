@@ -8,6 +8,7 @@ import pl.koloksk.Bukkit.Detection.fastAttack;
 import pl.koloksk.Bukkit.Detection.slowAttack;
 import pl.koloksk.Bukkit.Listeners.AsyncPlayerPreLoginEvent;
 import pl.koloksk.Common.Metrics.Metrics;
+import pl.koloksk.Common.utils.LoadDB;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.File;
@@ -33,13 +34,11 @@ public class Main extends JavaPlugin {
     public void onEnable() {
 
         AuthmeStatus = Bukkit.getPluginManager().isPluginEnabled("AuthMe");
-        int pluginId = 12002; // <-- Replace with the id of your plugin!
-        new Metrics(this, pluginId);
 
-        // Optional: Add custom charts
-
+        registerMetrics();
 
         plugin = this;
+        LoadDB.plugin = this;
         Bukkit.getPluginManager().registerEvents(new AsyncPlayerPreLoginEvent(), this);
         //Bukkit.getPluginManager().registerEvents(new PlayerLoginEvent(), this);
         LoadDB.downloaddb();
@@ -66,11 +65,13 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         getConfig().set("stats.blocked", StoreData.blocked);
         saveConfig();
-
     }
 
 
-
+    public void registerMetrics(){
+        int pluginId = 12002; // <-- Replace with the id of your plugin!
+        new Metrics(this, pluginId);
+    }
 
     public void loadConfig() {
         saveDefaultConfig();

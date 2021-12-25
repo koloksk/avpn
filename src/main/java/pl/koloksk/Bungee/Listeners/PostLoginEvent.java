@@ -2,12 +2,14 @@ package pl.koloksk.Bungee.Listeners;
 
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import pl.koloksk.Bukkit.Main;
+import pl.koloksk.Common.CheckManager;
+import pl.koloksk.Common.CheckResults;
+import pl.koloksk.Common.Discord.Discord;
+import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 
-import static pl.koloksk.Common.Check.Check;
 import static pl.koloksk.Common.utils.StoreData.ilosc_polaczen;
 
 public class PostLoginEvent implements Listener {
@@ -20,8 +22,21 @@ public class PostLoginEvent implements Listener {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
         }
-        if(Check(ip, nick )) {
-            e.getPlayer().disconnect("VPN is not allowed");
+
+        CheckManager sprawdz = new CheckManager(ip, nick);
+        sprawdz.Check();
+        if(sprawdz.getResult() != null){
+            StoreData.blocked++;
+            StoreData.ilosc_blokad++;
+            if(sprawdz.getResult() == CheckResults.COUNTRY)
+                e.getPlayer().disconnect("YOUR COUNTRY IS NOT ALLOWED");
+            if(sprawdz.getResult() == CheckResults.VPN)
+                e.getPlayer().disconnect("VPN IS NOT ALLOWED");
+            if(sprawdz.getResult() == CheckResults.NICK)
+                e.getPlayer().disconnect("YOUR NICK IS NOT ALLOWED");
+            if(Settings.integration_discord_enabled && !StoreData.attack) {
+                Discord.sendDiscord(nick, ip);
+            }
         }
     }
 }

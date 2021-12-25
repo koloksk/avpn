@@ -5,6 +5,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import pl.koloksk.Common.utils.LoadDB;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.File;
@@ -41,11 +42,12 @@ public class Main extends Plugin {
             }
         }
 
+        LoadDB.bplugin = plugin;
+        LoadDB.binstance = getProxy();
 
-        LoadDB.loaddb(getProxy(), this);
         loadConfig();
 
-        LoadDB.downloaddb();
+
     }
     public static ProxyServer getinstance(){
         return instance;
@@ -53,17 +55,19 @@ public class Main extends Plugin {
     public static Plugin getPlugin(){
         return plugin;
     }
-    public void loadConfig() {
+    public static void loadConfig() {
+
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         settings();
+        LoadDB.loaddb();
+        LoadDB.downloaddb();
 
     }
-
-    public void settings() {
+    public static void settings() {
         permissions_admin = config.getString("permissions.admin");
         permissions_bypass = config.getString("permissions.bypass");
 

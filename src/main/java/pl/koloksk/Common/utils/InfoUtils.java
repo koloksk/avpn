@@ -81,9 +81,4 @@ public class InfoUtils {
         }
         return null;
     }
-    public static void blockedInfo(String ip, String method){
-        if(Main.getinstance().getConfig().getBoolean("Debug")){
-            Bukkit.getLogger().info("[AVPN] Zablokowano ip "+ip+ " metoda "+method+ "  ("+StoreData.blocked+")");
-        }
-    }
 }

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
@@ -30,8 +31,8 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage("");
                 sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
             } else if (args[0].equals("reload")) {
-                plugin.reloadConfiguration();
-                sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
+                    plugin.reloadConfiguration();
+                    sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
             } else if (args[0].equals("list")) {
                 sender.sendMessage(String.valueOf(StoreData.ASN_List));
                 sender.sendMessage(String.valueOf(Settings.contry_list));

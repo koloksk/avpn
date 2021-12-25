@@ -1,3 +1,4 @@
+/*
 package pl.koloksk.Common;
 
 import pl.koloksk.Common.checks.*;
@@ -78,3 +79,4 @@ public class Check {
 
 
 }
+*/
