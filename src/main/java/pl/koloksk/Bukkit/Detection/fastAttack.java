@@ -25,7 +25,9 @@ public class fastAttack {
                     StoreData.fastAttack = false;
                     Bukkit.broadcastMessage("Serwer nie jest już atakowany");
                     LogFilter.disableFilter();
+/*
                     StoreData.AttackJoin.clear();
+*/
                 }
                 if (attack)
                     Bukkit.broadcastMessage("Ilosc polaczen na sek: " + ilosc_polaczen / 2 + "/s");

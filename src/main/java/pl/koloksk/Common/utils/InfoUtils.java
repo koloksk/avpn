@@ -6,7 +6,6 @@ import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
-import org.bukkit.Bukkit;
 import pl.koloksk.Bukkit.Main;
 
 import java.io.IOException;

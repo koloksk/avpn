@@ -6,25 +6,24 @@ import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.utils.LogFilter;
 import pl.koloksk.Common.utils.StoreData;
 
-import static pl.koloksk.Common.utils.StoreData.attack;
-import static pl.koloksk.Common.utils.StoreData.ilosc_blokad;
-
 public class slowAttack {
     public static void check(){
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (ilosc_blokad >= 2 && !attack && !StoreData.fastAttack) {
-                    attack = true;
+                if (StoreData.ilosc_blokad >= 2 && !StoreData.attack && !StoreData.fastAttack) {
+                    StoreData.attack = true;
                     StoreData.slowAttack = true;
                     Bukkit.broadcastMessage("Serwer jest atakowany!!!");
                     LogFilter.enableFilter();
-                } else if (ilosc_blokad < 2 && attack && !StoreData.fastAttack) {
-                    attack = false;
+                } else if (StoreData.ilosc_blokad < 2 && StoreData.attack && !StoreData.fastAttack) {
+                    StoreData.attack = false;
                     StoreData.slowAttack = false;
                     Bukkit.broadcastMessage("Serwer nie jest już atakowany");
                     LogFilter.disableFilter();
+/*
                     StoreData.AttackJoin.clear();
+*/
                 }
 
             }

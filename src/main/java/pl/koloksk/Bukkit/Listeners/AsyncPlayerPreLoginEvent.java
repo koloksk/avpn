@@ -1,7 +1,12 @@
 package pl.koloksk.Bukkit.Listeners;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.CheckManager;
@@ -14,28 +19,19 @@ import java.io.IOException;
 
 public class AsyncPlayerPreLoginEvent implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void Onjoin(org.bukkit.event.player.AsyncPlayerPreLoginEvent e) throws IOException {
-
-
-
-
 
         String ip = e.getAddress().getHostAddress();
         String nick = e.getName();
 
 
-
-
-
-
-
         StoreData.ilosc_polaczen++;
 
-        if(StoreData.attack) {
+/*        if(StoreData.attack) {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
-        }
+        }*/
         if(Main.AuthmeStatus) {
             AuthMeApi authmeApi = AuthMeApi.getInstance();
             if (StoreData.attack && Settings.integration_authme_enabled && !authmeApi.isRegistered(nick)) {
@@ -50,18 +46,35 @@ public class AsyncPlayerPreLoginEvent implements Listener {
 
         CheckManager sprawdz = new CheckManager(ip, nick);
         sprawdz.Check();
-        if(sprawdz.getResult() != null){
+        if(sprawdz.getResult() != null && sprawdz.getResult() != CheckResults.ALLOW){
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(sprawdz.getResult() == CheckResults.COUNTRY)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "YOUR COUNTRY IS NOT ALLOWED");
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_country);
             if(sprawdz.getResult() == CheckResults.VPN)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "VPN IS NOT ALLOWED");
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_vpn);
             if(sprawdz.getResult() == CheckResults.NICK)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "YOUR NICK IS NOT ALLOWED");
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_nick);
             if(Settings.integration_discord_enabled && !StoreData.attack) {
                 Discord.sendDiscord(nick, ip);
             }
+
+
+
+
+/*            if(!Main.mcver.startsWith("1.8")) {
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                    if (p.hasPermission(Settings.permissions_admin) || p.isOp()) {
+                        String message = "§6§lZablokowano " + ip;
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+                    }
+                }
+            }*/
+
+
+        } else {
+            Bukkit.broadcastMessage("EVENT BYL KURWA NULL"+ sprawdz.getResult());
+
         }
 
 /*        if(Check(ip, nick)) {

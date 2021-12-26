@@ -4,4 +4,6 @@ public enum CheckResults {
     COUNTRY,
     VPN,
     NICK,
+    MAXCONNECTIONS,
+    ALLOW,
 }

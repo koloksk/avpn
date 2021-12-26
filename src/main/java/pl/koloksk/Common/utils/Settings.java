@@ -9,7 +9,7 @@ public class Settings {
     public static String Messages_country;
     public static String Messages_vpn;
     public static String Messages_maxip;
-    public static String Messages_iplist;
+    public static String Messages_nick;
 
 
     public static Boolean contry_enabled;

@@ -74,7 +74,7 @@ public class Main extends Plugin {
         Messages_country = config.getString("messages.country");
         Messages_vpn = config.getString("messages.vpn");
         Messages_maxip = config.getString("messages.max-connections");
-        Messages_iplist = config.getString("messages.iplist");
+        Messages_nick = config.getString("messages.nick");
 
 
         contry_enabled = config.getBoolean("country.enabled");

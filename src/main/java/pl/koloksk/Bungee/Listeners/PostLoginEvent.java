@@ -18,10 +18,10 @@ public class PostLoginEvent implements Listener {
         String ip = e.getPlayer().getAddress().getHostName();
         String nick = e.getPlayer().getName();
         ilosc_polaczen++;
-        if(StoreData.attack) {
+/*        if(StoreData.attack) {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
-        }
+        }*/
 
         CheckManager sprawdz = new CheckManager(ip, nick);
         sprawdz.Check();
@@ -29,11 +29,11 @@ public class PostLoginEvent implements Listener {
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(sprawdz.getResult() == CheckResults.COUNTRY)
-                e.getPlayer().disconnect("YOUR COUNTRY IS NOT ALLOWED");
+                e.getPlayer().disconnect(Settings.Messages_country);
             if(sprawdz.getResult() == CheckResults.VPN)
-                e.getPlayer().disconnect("VPN IS NOT ALLOWED");
+                e.getPlayer().disconnect(Settings.Messages_vpn);
             if(sprawdz.getResult() == CheckResults.NICK)
-                e.getPlayer().disconnect("YOUR NICK IS NOT ALLOWED");
+                e.getPlayer().disconnect(Settings.Messages_nick);
             if(Settings.integration_discord_enabled && !StoreData.attack) {
                 Discord.sendDiscord(nick, ip);
             }

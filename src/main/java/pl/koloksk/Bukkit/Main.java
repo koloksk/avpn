@@ -30,12 +30,22 @@ public class Main extends JavaPlugin {
     public static File codatabase = new File("plugins/Anti-vpn/GeoLite2-Country.mmdb");
     public static boolean AuthmeStatus;
     public static Main plugin;
+    public static String mcver;
     @Override
     public void onEnable() {
 
         AuthmeStatus = Bukkit.getPluginManager().isPluginEnabled("AuthMe");
 
         registerMetrics();
+
+            String bukkitver = Bukkit.getServer().getVersion();
+            int idx = bukkitver.indexOf("(MC: ");
+            if(idx > 0) {
+                mcver = bukkitver.substring(idx+5);
+                idx = mcver.indexOf(")");
+                if(idx > 0) mcver = mcver.substring(0, idx);
+            }
+
 
         plugin = this;
         LoadDB.plugin = this;
@@ -92,7 +102,7 @@ public class Main extends JavaPlugin {
         Messages_country = getConfig().getString("messages.country");
         Messages_vpn = getConfig().getString("messages.vpn");
         Messages_maxip = getConfig().getString("messages.max-connections");
-        Messages_iplist = getConfig().getString("messages.iplist");
+        Messages_nick = getConfig().getString("messages.nick");
 
 
         contry_enabled = getConfig().getBoolean("country.enabled");

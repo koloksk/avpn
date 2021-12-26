@@ -20,5 +20,7 @@ public class StoreData {
     public static int blocked;
 
     public static boolean attack = false;
+/*
     public static HashMap<String, String> AttackJoin = new HashMap<>();
+*/
 }

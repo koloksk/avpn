@@ -18,7 +18,7 @@ public class Commands extends Command {
             if (args.length < 1) {
                 sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
                 sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
+                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload - reload config");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn list - list blocked asn");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn info <player> - advanced info about player");
                 sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn modules - modules status");
