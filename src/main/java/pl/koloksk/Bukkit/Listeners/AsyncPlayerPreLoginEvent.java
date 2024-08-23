@@ -1,16 +1,12 @@
 package pl.koloksk.Bukkit.Listeners;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import pl.koloksk.Bukkit.Main;
-import pl.koloksk.Common.CheckManager;
-import pl.koloksk.Common.CheckResults;
+import pl.koloksk.Common.Detection.CheckManager;
+import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.Discord.Discord;
 import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
@@ -24,7 +20,6 @@ public class AsyncPlayerPreLoginEvent implements Listener {
 
         String ip = e.getAddress().getHostAddress();
         String nick = e.getName();
-
 
         StoreData.ilosc_polaczen++;
 
@@ -45,18 +40,19 @@ public class AsyncPlayerPreLoginEvent implements Listener {
 
 
         CheckManager sprawdz = new CheckManager(ip, nick);
-        sprawdz.Check();
-        if(sprawdz.getResult() != null && sprawdz.getResult() != CheckResults.ALLOW){
+        CheckResults result = sprawdz.Check();
+
+        if(result != null && result != CheckResults.ALLOW){
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
-            if(sprawdz.getResult() == CheckResults.COUNTRY)
+            if(result == CheckResults.COUNTRY)
                 e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_country);
-            if(sprawdz.getResult() == CheckResults.VPN)
+            if(result == CheckResults.VPN)
                 e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_vpn);
-            if(sprawdz.getResult() == CheckResults.NICK)
+            if(result == CheckResults.NICK)
                 e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_nick);
             if(Settings.integration_discord_enabled && !StoreData.attack) {
-                Discord.sendDiscord(nick, ip);
+                Discord.sendDiscord(Settings.integration_discord_url, nick, ip);
             }
 
 
@@ -72,10 +68,11 @@ public class AsyncPlayerPreLoginEvent implements Listener {
             }*/
 
 
-        } else {
-            Bukkit.broadcastMessage("EVENT BYL KURWA NULL"+ sprawdz.getResult());
-
         }
+//        else {
+//            Bukkit.broadcastMessage("EVENT BYL KURWA NULL"+ result);
+//
+//        }
 
 /*        if(Check(ip, nick)) {
 

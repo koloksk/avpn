@@ -1,4 +1,4 @@
-package pl.koloksk.Common;
+package pl.koloksk.Common.Detection;
 
 public enum CheckResults {
     COUNTRY,

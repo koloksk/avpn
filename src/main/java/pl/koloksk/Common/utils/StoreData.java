@@ -1,5 +1,6 @@
 package pl.koloksk.Common.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,13 @@ public class StoreData {
     public static int blocked;
 
     public static boolean attack = false;
+
+    public static File orgdatabase;
+    public static File codatabase;
+    public static boolean enabled = true;
 /*
+
+
     public static HashMap<String, String> AttackJoin = new HashMap<>();
 */
 }

@@ -1,22 +1,21 @@
-package pl.koloksk.Common.checks;
+package pl.koloksk.Common.Detection.checks;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
-import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.utils.Settings;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 
 public class CheckCountry {
-    public static boolean check(String ip) throws IOException {
+    public static boolean check(String ip, File countryFile) throws IOException {
 
-        try (DatabaseReader reader = new DatabaseReader.Builder(Main.codatabase).build()) {
+        try (DatabaseReader reader = new DatabaseReader.Builder(countryFile).build()) {
 
             InetAddress ipAddress = InetAddress.getByName(ip);
-
             CountryResponse response = reader.country(ipAddress);
             Country country = response.getCountry();
             String co = country.getIsoCode();

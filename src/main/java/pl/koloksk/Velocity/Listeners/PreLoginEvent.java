@@ -1,7 +1,8 @@
-package pl.koloksk.Bungee.Listeners;
+package pl.koloksk.Velocity.Listeners;
 
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
+import com.velocitypowered.api.event.PostOrder;
+import com.velocitypowered.api.event.Subscribe;
+import net.kyori.adventure.text.Component;
 import pl.koloksk.Common.Detection.CheckManager;
 import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.Discord.Discord;
@@ -10,14 +11,15 @@ import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
 
-import static pl.koloksk.Common.utils.StoreData.ilosc_polaczen;
+public class PreLoginEvent {
 
-public class PostLoginEvent implements Listener {
-    @EventHandler
-    public void onPostLogin(net.md_5.bungee.api.event.PostLoginEvent e) throws IOException {
-        String ip = e.getPlayer().getAddress().getHostName();
-        String nick = e.getPlayer().getName();
-        ilosc_polaczen++;
+
+    @Subscribe(order = PostOrder.EARLY)
+    public void onPreLoginEvent(com.velocitypowered.api.event.connection.PreLoginEvent e) throws IOException {
+
+        String ip = e.getConnection().getRemoteAddress().getHostName();
+        String nick = e.getUsername();
+        //ilosc_polaczen++;
 /*        if(StoreData.attack) {
             StoreData.AttackJoin.put(nick, ip);
             //Bukkit.broadcastMessage("Dodano gracza" + e.getName());
@@ -29,14 +31,15 @@ public class PostLoginEvent implements Listener {
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(sprawdz.getResult() == CheckResults.COUNTRY)
-                e.getPlayer().disconnect(Settings.Messages_country);
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_country)));
             if(sprawdz.getResult() == CheckResults.VPN)
-                e.getPlayer().disconnect(Settings.Messages_vpn);
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_vpn)));
             if(sprawdz.getResult() == CheckResults.NICK)
-                e.getPlayer().disconnect(Settings.Messages_nick);
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_nick)));
             if(Settings.integration_discord_enabled && !StoreData.attack) {
                 Discord.sendDiscord(Settings.integration_discord_url, nick, ip);
             }
         }
     }
+
 }

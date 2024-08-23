@@ -1,4 +1,4 @@
-package pl.koloksk.Bukkit.Detection;
+package pl.koloksk.Bukkit.AttackDetection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,13 +11,11 @@ public class slowAttack {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (StoreData.ilosc_blokad >= 2 && !StoreData.attack && !StoreData.fastAttack) {
-                    StoreData.attack = true;
+                if (StoreData.ilosc_blokad >= 2 && !StoreData.slowAttack && !StoreData.fastAttack) {
                     StoreData.slowAttack = true;
                     Bukkit.broadcastMessage("Serwer jest atakowany!!!");
                     LogFilter.enableFilter();
-                } else if (StoreData.ilosc_blokad < 2 && StoreData.attack && !StoreData.fastAttack) {
-                    StoreData.attack = false;
+                } else if (StoreData.ilosc_blokad < 2 && StoreData.slowAttack && !StoreData.fastAttack) {
                     StoreData.slowAttack = false;
                     Bukkit.broadcastMessage("Serwer nie jest już atakowany");
                     LogFilter.disableFilter();

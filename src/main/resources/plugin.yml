@@ -1,4 +1,4 @@
-name: Anti-vpn
+name: avpn
 version: ${project.version}
 main: pl.koloksk.Bukkit.Main
 author: koloksk

@@ -1,4 +1,4 @@
-/*package pl.koloksk.Common.checks;
+/*package pl.koloksk.Common.Detection.checks;
 
 import pl.koloksk.Common.utils.StoreData;
 

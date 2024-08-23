@@ -4,11 +4,11 @@ package pl.koloksk.Bukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import pl.koloksk.Bukkit.Detection.fastAttack;
-import pl.koloksk.Bukkit.Detection.slowAttack;
+import pl.koloksk.Bukkit.AttackDetection.fastAttack;
+import pl.koloksk.Bukkit.AttackDetection.slowAttack;
 import pl.koloksk.Bukkit.Listeners.AsyncPlayerPreLoginEvent;
 import pl.koloksk.Common.Metrics.Metrics;
-import pl.koloksk.Common.utils.LoadDB;
+import pl.koloksk.Common.utils.DB.LoadDB;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.File;
@@ -26,8 +26,8 @@ import static pl.koloksk.Common.utils.Settings.*;
 
 
 public class Main extends JavaPlugin {
-    public static File orgdatabase = new File("plugins/Anti-vpn/GeoLite2-ASN.mmdb");
-    public static File codatabase = new File("plugins/Anti-vpn/GeoLite2-Country.mmdb");
+//    public static File orgdatabase = new File("plugins/avpn/GeoLite2-ASN.mmdb");
+//    public static File codatabase = new File("plugins/avpn/GeoLite2-Country.mmdb");
     public static boolean AuthmeStatus;
     public static Main plugin;
     public static String mcver;
@@ -35,7 +35,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
 
         AuthmeStatus = Bukkit.getPluginManager().isPluginEnabled("AuthMe");
-
+        StoreData.orgdatabase = new File("plugins/avpn/GeoLite2-ASN.mmdb");
+        StoreData.codatabase = new File("plugins/avpn/GeoLite2-Country.mmdb");
         registerMetrics();
 
             String bukkitver = Bukkit.getServer().getVersion();
@@ -48,7 +49,6 @@ public class Main extends JavaPlugin {
 
 
         plugin = this;
-        LoadDB.plugin = this;
         Bukkit.getPluginManager().registerEvents(new AsyncPlayerPreLoginEvent(), this);
         //Bukkit.getPluginManager().registerEvents(new PlayerLoginEvent(), this);
         LoadDB.downloaddb();

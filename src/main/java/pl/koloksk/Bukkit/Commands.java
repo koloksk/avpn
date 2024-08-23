@@ -4,66 +4,114 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import pl.koloksk.Bukkit.Main;
+import pl.koloksk.Common.Detection.CheckManager;
+import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
 
-public class Commands implements CommandExecutor {
-    public static Main plugin;
+import java.io.IOException;
 
-    public Commands(Main pl) {
-        plugin = pl;
+public class Commands implements CommandExecutor {
+    private final Main plugin;
+
+    public Commands(Main plugin) {
+        this.plugin = plugin;
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (sender.hasPermission(Settings.permissions_admin)) {
-            if (args.length < 1) {
-                sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
-                sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn list - list blocked asn");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn info <player> - advanced info about player");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn modules - modules status");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn checkip");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn notif");
-                sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
-                sender.sendMessage("");
-                sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
-            } else if (args[0].equals("reload")) {
-                    plugin.reloadConfiguration();
-                    sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
-            } else if (args[0].equals("list")) {
-                sender.sendMessage(String.valueOf(StoreData.ASN_List));
-                sender.sendMessage(String.valueOf(Settings.contry_list));
-
-            } else if (args[0].equals("info") && !args[1].isEmpty()) {
-                String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
-                sender.sendMessage("UUID: "+ Bukkit.getPlayer(args[1]).getUniqueId());
-                sender.sendMessage("ip:" + ip);
-                sender.sendMessage("Country: " + InfoUtils.getCountry(ip));
-                sender.sendMessage("Country Name: " + InfoUtils.getCountryName(ip));
-                sender.sendMessage("City: " + InfoUtils.getCity(ip));
-                sender.sendMessage("ORG: " + InfoUtils.getORG(ip));
-
-            }
-            else if (args[0].equals("stats")) {
-                sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
-                //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
-            } else if (args[0].equals("modules")) {
-                sender.sendMessage("Api Check: " + Settings.api_enabled);
-                sender.sendMessage("ASN Check: " + Settings.asn_enabled);
-                sender.sendMessage("Nick Check: " + Settings.blocknick_enabled);
-                sender.sendMessage("Country Check: " + Settings.contry_enabled);
-                sender.sendMessage("IP BlackList Check: " + Settings.iplist_enabled);
-                sender.sendMessage("Max Conn Check: " + Settings.maxip_enabled);
-
-
-                //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
-            }
-
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!sender.hasPermission(Settings.permissions_admin)) {
+            sender.sendMessage("You do not have permission to execute this command.");
             return false;
         }
-        return false;
+
+        if (args.length < 1) {
+            displayHelp(sender);
+            return true;
+        }
+
+        switch (args[0].toLowerCase()) {
+            case "reload":
+                plugin.reloadConfiguration();
+                sender.sendMessage("Zaktualizowano bazę danych, Przeładowano konfigurację.");
+                break;
+
+            case "list":
+                sender.sendMessage(StoreData.ASN_List.toString());
+                sender.sendMessage(Settings.contry_list.toString());
+                sender.sendMessage(StoreData.listaip.toString());
+                break;
+
+            case "info":
+                if (args.length > 1) {
+                    String playerName = args[1];
+                    if (Bukkit.getPlayer(playerName) != null) {
+                        String ip = Bukkit.getPlayer(playerName).getAddress().getHostString();
+                        sender.sendMessage("UUID: " + Bukkit.getPlayer(playerName).getUniqueId());
+                        sender.sendMessage("IP: " + ip);
+                        sender.sendMessage("Country: " + InfoUtils.getCountry(ip));
+                        sender.sendMessage("Country Name: " + InfoUtils.getCountryName(ip));
+                        sender.sendMessage("City: " + InfoUtils.getCity(ip));
+                        sender.sendMessage("ORG: " + InfoUtils.getORG(ip));
+                    } else {
+                        sender.sendMessage("Player not found.");
+                    }
+                } else {
+                    sender.sendMessage("Please specify a player.");
+                }
+                break;
+            case "checkip":
+                if (args.length > 1) {
+                    String ip = args[1];
+                    CheckManager sprawdz = new CheckManager(ip, " ");
+                    CheckResults result = null;
+                    try {
+                        result = sprawdz.Check();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    sender.sendMessage(result.name());
+                } else {
+                    sender.sendMessage("Please specify a player.");
+                }
+                break;
+
+            case "stats":
+                sender.sendMessage("Zablokowane IP: " + StoreData.blocked);
+                break;
+
+            case "modules":
+                displayModulesStatus(sender);
+                break;
+
+            default:
+                sender.sendMessage("Unknown command. Use /avpn for help.");
+                break;
+        }
+
+        return true;
+    }
+
+    private void displayHelp(CommandSender sender) {
+        sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
+        sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn reload");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn list - list blocked ASN");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn info <player> - advanced info about player");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn modules - modules status");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn checkip <ip> - check ip ");
+        sender.sendMessage(" \u00a7c\u2022 \u00a7e/avpn stats");
+        sender.sendMessage("");
+        sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
+    }
+
+    private void displayModulesStatus(CommandSender sender) {
+        sender.sendMessage("Api Check: " + Settings.api_enabled);
+        sender.sendMessage("ASN Check: " + Settings.asn_enabled);
+        sender.sendMessage("Nick Check: " + Settings.blocknick_enabled);
+        sender.sendMessage("Country Check: " + Settings.contry_enabled);
+        sender.sendMessage("IP BlackList Check: " + Settings.iplist_enabled);
+        sender.sendMessage("Max Conn Check: " + Settings.maxip_enabled);
     }
 }

@@ -1,4 +1,4 @@
-package pl.koloksk.Bukkit.Detection;
+package pl.koloksk.Bukkit.AttackDetection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -7,21 +7,17 @@ import pl.koloksk.Common.utils.LogFilter;
 import pl.koloksk.Common.utils.StoreData;
 
 import static pl.koloksk.Common.utils.Settings.detect_minjps;
-import static pl.koloksk.Common.utils.StoreData.attack;
-import static pl.koloksk.Common.utils.StoreData.ilosc_polaczen;
 
 public class fastAttack {
     public static void check(){
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (ilosc_polaczen / 2 > detect_minjps && !attack && !StoreData.slowAttack) {
-                    attack = true;
+                if (StoreData.ilosc_polaczen / 2 > detect_minjps && !StoreData.fastAttack && !StoreData.slowAttack) {
                     StoreData.fastAttack = true;
                     Bukkit.broadcastMessage("Serwer jest atakowany!!!");
                     LogFilter.enableFilter();
-                } else if (ilosc_polaczen / 2 < detect_minjps && attack && !StoreData.slowAttack) {
-                    attack = false;
+                } else if (StoreData.ilosc_polaczen / 2 < detect_minjps && StoreData.fastAttack && !StoreData.slowAttack) {
                     StoreData.fastAttack = false;
                     Bukkit.broadcastMessage("Serwer nie jest już atakowany");
                     LogFilter.disableFilter();
@@ -29,9 +25,9 @@ public class fastAttack {
                     StoreData.AttackJoin.clear();
 */
                 }
-                if (attack)
-                    Bukkit.broadcastMessage("Ilosc polaczen na sek: " + ilosc_polaczen / 2 + "/s");
-                ilosc_polaczen = 0;
+                if (StoreData.fastAttack)
+                    Bukkit.broadcastMessage("Ilosc polaczen na sek: " + StoreData.ilosc_polaczen / 2 + "/s");
+                StoreData.ilosc_polaczen = 0;
 
 
             }

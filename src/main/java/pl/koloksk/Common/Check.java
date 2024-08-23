@@ -1,7 +1,7 @@
 /*
 package pl.koloksk.Common;
 
-import pl.koloksk.Common.checks.*;
+import pl.koloksk.Common.Detection.checks.*;
 import pl.koloksk.Common.utils.InfoUtils;
 import pl.koloksk.Common.utils.Settings;
 import pl.koloksk.Common.utils.StoreData;
