@@ -1,10 +1,10 @@
 package pl.koloksk.Common.Detection.checks;
 
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 
 public class CheckNick {
     public static boolean check(String nick){
-            for(String regex: Settings.blocknick_list) {
+            for(String regex: Config.blocknick_list) {
                 if(nick.contains(regex)){
                     return true;
                 }

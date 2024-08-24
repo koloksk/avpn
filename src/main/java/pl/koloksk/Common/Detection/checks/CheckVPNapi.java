@@ -17,7 +17,6 @@ public class CheckVPNapi {
             String jsonResponse = getApiResponse(ip);
             return parseJsonResponse(jsonResponse, ip);
         } catch (Exception e) {
-            // Możesz dodać logowanie błędu tutaj, np. e.printStackTrace();
             return false;
         }
     }

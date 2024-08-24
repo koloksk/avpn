@@ -1,7 +1,7 @@
 package pl.koloksk.Common.Detection;
 
 import pl.koloksk.Common.Detection.checks.*;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.File;
@@ -33,16 +33,16 @@ public class CheckManager {
         if(ip.equals("127.0.0.1"))
             return CheckResults.ALLOW;
 
-        if (CheckNick.check(name) && Settings.blocknick_enabled) {
+        if (CheckNick.check(name) && Config.blocknick_enabled) {
             return CheckResults.NICK;
 
         }
 
-        if (CheckCountry.check(ip, countryfile) && Settings.contry_enabled) {
+        if (CheckCountry.check(ip, countryfile) && Config.contry_enabled) {
             return CheckResults.COUNTRY;
         }
 
-        if (CheckORG.check(ip, orgfile) && Settings.asn_enabled) {
+        if (CheckORG.check(ip, orgfile) && Config.asn_enabled) {
             return CheckResults.VPN;
         }
 
@@ -51,12 +51,12 @@ public class CheckManager {
 //
 //        }
 
-        if (CheckIPblacklist.check(ip) && Settings.iplist_enabled) {
+        if (CheckIPblacklist.check(ip) && Config.iplist_enabled) {
             return CheckResults.VPN;
 
         }
 
-        if (Settings.api_enabled) {
+        if (Config.api_enabled) {
             if (CheckIpIntel.check(ip)) {
                 return CheckResults.VPN;
             }

@@ -4,10 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import pl.koloksk.Common.Config.ConfigManager;
 import pl.koloksk.Common.Detection.CheckManager;
 import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.utils.InfoUtils;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission(Settings.permissions_admin)) {
+        if (!sender.hasPermission(Config.permissions_admin)) {
             sender.sendMessage("You do not have permission to execute this command.");
             return false;
         }
@@ -33,13 +34,13 @@ public class Commands implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "reload":
-                plugin.reloadConfiguration();
+                ConfigManager.reload();
                 sender.sendMessage("Zaktualizowano bazę danych, Przeładowano konfigurację.");
                 break;
 
             case "list":
                 sender.sendMessage(StoreData.ASN_List.toString());
-                sender.sendMessage(Settings.contry_list.toString());
+                sender.sendMessage(Config.contry_list.toString());
                 sender.sendMessage(StoreData.listaip.toString());
                 break;
 
@@ -107,11 +108,11 @@ public class Commands implements CommandExecutor {
     }
 
     private void displayModulesStatus(CommandSender sender) {
-        sender.sendMessage("Api Check: " + Settings.api_enabled);
-        sender.sendMessage("ASN Check: " + Settings.asn_enabled);
-        sender.sendMessage("Nick Check: " + Settings.blocknick_enabled);
-        sender.sendMessage("Country Check: " + Settings.contry_enabled);
-        sender.sendMessage("IP BlackList Check: " + Settings.iplist_enabled);
-        sender.sendMessage("Max Conn Check: " + Settings.maxip_enabled);
+        sender.sendMessage("Api Check: " + Config.api_enabled);
+        sender.sendMessage("ASN Check: " + Config.asn_enabled);
+        sender.sendMessage("Nick Check: " + Config.blocknick_enabled);
+        sender.sendMessage("Country Check: " + Config.contry_enabled);
+        sender.sendMessage("IP BlackList Check: " + Config.iplist_enabled);
+        sender.sendMessage("Max Conn Check: " + Config.maxip_enabled);
     }
 }

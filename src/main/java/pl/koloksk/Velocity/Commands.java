@@ -5,8 +5,9 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import pl.koloksk.Common.Config.ConfigManager;
 import pl.koloksk.Common.utils.InfoUtils;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.util.Optional;
@@ -18,19 +19,19 @@ public class Commands implements SimpleCommand {
         CommandSource sender = invocation.source();
         String[] args = invocation.arguments();
 
-        if (sender.hasPermission(Settings.permissions_admin)) {
+        if (sender.hasPermission(Config.permissions_admin)) {
             if (args.length < 1) {
                 sendHelpMessage(sender);
             } else {
                 switch (args[0].toLowerCase()) {
                     case "reload":
-                        Main.loadConfig();
+                        ConfigManager.reload();
                         sender.sendMessage(Component.text("Zaktualizowano bazę danych, Przeładowano konfig").color(NamedTextColor.GREEN));
                         break;
 
                     case "list":
                         sender.sendMessage(Component.text("ASN List: " + StoreData.ASN_List));
-                        sender.sendMessage(Component.text("Country List: " + Settings.contry_list));
+                        sender.sendMessage(Component.text("Country List: " + Config.contry_list));
                         break;
 
                     case "info":
@@ -57,12 +58,12 @@ public class Commands implements SimpleCommand {
                         break;
 
                     case "modules":
-                        sender.sendMessage(Component.text("Api Check: " + Settings.api_enabled));
-                        sender.sendMessage(Component.text("ASN Check: " + Settings.asn_enabled));
-                        sender.sendMessage(Component.text("Nick Check: " + Settings.blocknick_enabled));
-                        sender.sendMessage(Component.text("Country Check: " + Settings.contry_enabled));
-                        sender.sendMessage(Component.text("IP BlackList Check: " + Settings.iplist_enabled));
-                        sender.sendMessage(Component.text("Max Conn Check: " + Settings.maxip_enabled));
+                        sender.sendMessage(Component.text("Api Check: " + Config.api_enabled));
+                        sender.sendMessage(Component.text("ASN Check: " + Config.asn_enabled));
+                        sender.sendMessage(Component.text("Nick Check: " + Config.blocknick_enabled));
+                        sender.sendMessage(Component.text("Country Check: " + Config.contry_enabled));
+                        sender.sendMessage(Component.text("IP BlackList Check: " + Config.iplist_enabled));
+                        sender.sendMessage(Component.text("Max Conn Check: " + Config.maxip_enabled));
                         break;
                     case "off":
                         StoreData.enabled = false;

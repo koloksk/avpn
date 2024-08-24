@@ -6,7 +6,7 @@ import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.utils.LogFilter;
 import pl.koloksk.Common.utils.StoreData;
 
-import static pl.koloksk.Common.utils.Settings.detect_minjps;
+import static pl.koloksk.Common.Config.Config.detect_minjps;
 
 public class fastAttack {
     public static void check(){

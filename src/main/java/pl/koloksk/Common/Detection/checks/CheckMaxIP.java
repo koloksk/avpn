@@ -4,7 +4,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.koloksk.Bungee.Main;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 public class CheckMaxIP {
@@ -23,6 +23,6 @@ public class CheckMaxIP {
                     clients++;
             }
         }
-        return clients >= Settings.maxip_limit;
+        return clients >= Config.maxip_limit;
     }
 }

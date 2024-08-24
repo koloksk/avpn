@@ -35,9 +35,24 @@ ip-list:
 #=========== API CHECK ===========
 api:
   enabled: true             # Enable or disable API check
+#=========== CONSOLE FILTER ===========
+console-filter:
+  only-attack: true
+  filter-list:
+      - "UUID of player"
+      - "logged in with entity"
+      - "lost connection"
+      - "disconnected"
+      - "disconnecting"
+      - "handleDisconnection"
+      - "timed out"
+      - "left the game"
+      - "joined the game"
+
+
 
 #=========== NICKNAME CHECK ===========
-block_nick:
+block-nick:
   enabled: true             # Enable or disable nickname blocking
   list:
     - "mcstorm"
@@ -53,7 +68,7 @@ block_nick:
     - "ttp00roxy"
 
 #=========== ATTACK DETECTION ===========
-detect_attack:
+detect-attack:
   min-jps: 5                # Minimum join-per-second threshold to detect an attack
 
 #=========== INTEGRATIONS ===========
@@ -64,8 +79,14 @@ integrations:
   discord:
     enabled: false          # Disable or enable Discord integration
     webhook-url: ''         # URL for the Discord webhook
+    avatar-url: "https://i.imgur.com/L14Cp18.png"
+    title: ""
+    username: "AVPN BOT"
+    description: "Detected vpn at player %playername% (%ip%)"
+    footer: "AVPN"
 
-#=========== DEBUGGING & STATS ===========
+#=========== DEBUGGING & STATS ==========
+Version: 1
 Debug: false                # Enable or disable debug mode
 stats:
   blocked: 0                # Number of blocked connections

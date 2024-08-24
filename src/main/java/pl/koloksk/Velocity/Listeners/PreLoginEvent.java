@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import pl.koloksk.Common.Detection.CheckManager;
 import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.Discord.Discord;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class PreLoginEvent {
 
 
-    @Subscribe(order = PostOrder.EARLY)
+    @Subscribe(order = PostOrder.FIRST)
     public void onPreLoginEvent(com.velocitypowered.api.event.connection.PreLoginEvent e) throws IOException {
 
         String ip = e.getConnection().getRemoteAddress().getHostName();
@@ -31,13 +31,13 @@ public class PreLoginEvent {
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(sprawdz.getResult() == CheckResults.COUNTRY)
-                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_country)));
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Config.Messages_country)));
             if(sprawdz.getResult() == CheckResults.VPN)
-                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_vpn)));
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Config.Messages_vpn)));
             if(sprawdz.getResult() == CheckResults.NICK)
-                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Settings.Messages_nick)));
-            if(Settings.integration_discord_enabled && !StoreData.attack) {
-                Discord.sendDiscord(Settings.integration_discord_url, nick, ip);
+                e.setResult(com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult.denied(Component.text(Config.Messages_nick)));
+            if(Config.integration_discord_enabled && !StoreData.attack) {
+                Discord.sendDiscord(Config.integration_discord_url, nick, ip);
             }
         }
     }

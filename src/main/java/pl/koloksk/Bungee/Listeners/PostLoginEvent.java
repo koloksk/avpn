@@ -5,7 +5,7 @@ import net.md_5.bungee.event.EventHandler;
 import pl.koloksk.Common.Detection.CheckManager;
 import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.Discord.Discord;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
@@ -29,13 +29,13 @@ public class PostLoginEvent implements Listener {
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(sprawdz.getResult() == CheckResults.COUNTRY)
-                e.getPlayer().disconnect(Settings.Messages_country);
+                e.getPlayer().disconnect(Config.Messages_country);
             if(sprawdz.getResult() == CheckResults.VPN)
-                e.getPlayer().disconnect(Settings.Messages_vpn);
+                e.getPlayer().disconnect(Config.Messages_vpn);
             if(sprawdz.getResult() == CheckResults.NICK)
-                e.getPlayer().disconnect(Settings.Messages_nick);
-            if(Settings.integration_discord_enabled && !StoreData.attack) {
-                Discord.sendDiscord(Settings.integration_discord_url, nick, ip);
+                e.getPlayer().disconnect(Config.Messages_nick);
+            if(Config.integration_discord_enabled && !StoreData.attack) {
+                Discord.sendDiscord(Config.integration_discord_url, nick, ip);
             }
         }
     }

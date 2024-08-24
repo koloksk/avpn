@@ -4,8 +4,9 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bukkit.Bukkit;
+import pl.koloksk.Common.Config.ConfigManager;
 import pl.koloksk.Common.utils.InfoUtils;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 public class Commands extends Command {
@@ -14,7 +15,7 @@ public class Commands extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        if (sender.hasPermission(Settings.permissions_admin)) {
+        if (sender.hasPermission(Config.permissions_admin)) {
             if (args.length < 1) {
                 sender.sendMessage("\n\u00a7e\u00a7l[\u00a76\u00a7lAVPN\u00a7e\u00a7l] \u00a7r");
                 sender.sendMessage(" \u00a76\u00bb \u00a7bCommands: \n");
@@ -28,11 +29,11 @@ public class Commands extends Command {
                 sender.sendMessage("");
                 sender.sendMessage(" \u00a77\u00bb \u00a78AVPN");
             } else if (args[0].equals("reload")) {
-                Main.loadConfig();
+                ConfigManager.reload();
                 sender.sendMessage("Zaktualizowano baze danych, Przeladowano konfig");
             } else if (args[0].equals("list")) {
                 sender.sendMessage(String.valueOf(StoreData.ASN_List));
-                sender.sendMessage(String.valueOf(Settings.contry_list));
+                sender.sendMessage(String.valueOf(Config.contry_list));
 
             } else if (args[0].equals("info") && !args[1].isEmpty()) {
                 String ip = Bukkit.getPlayer(args[1]).getAddress().getHostString();
@@ -48,12 +49,12 @@ public class Commands extends Command {
                 sender.sendMessage("Zablokowane ip: " + StoreData.blocked);
                 //sender.sendMessage(String.valueOf(StoreData.AttackJoin));
             } else if (args[0].equals("modules")) {
-                sender.sendMessage("Api Check: " + Settings.api_enabled);
-                sender.sendMessage("ASN Check: " + Settings.asn_enabled);
-                sender.sendMessage("Nick Check: " + Settings.blocknick_enabled);
-                sender.sendMessage("Country Check: " + Settings.contry_enabled);
-                sender.sendMessage("IP BlackList Check: " + Settings.iplist_enabled);
-                sender.sendMessage("Max Conn Check: " + Settings.maxip_enabled);
+                sender.sendMessage("Api Check: " + Config.api_enabled);
+                sender.sendMessage("ASN Check: " + Config.asn_enabled);
+                sender.sendMessage("Nick Check: " + Config.blocknick_enabled);
+                sender.sendMessage("Country Check: " + Config.contry_enabled);
+                sender.sendMessage("IP BlackList Check: " + Config.iplist_enabled);
+                sender.sendMessage("Max Conn Check: " + Config.maxip_enabled);
 
 
                 //sender.sendMessage(String.valueOf(StoreData.AttackJoin));

@@ -9,10 +9,11 @@ import org.apache.logging.log4j.core.LifeCycle;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
+import pl.koloksk.Common.Config.Config;
 
 
 public class LogFilter implements Filter {
-    private static final String[] toCheck = new String[] { "UUID of player", "logged in with entity","lost connection", "disconnected", "disconnecting", "handleDisconnection", "timed out", "left the game", "joined the game" };
+    private static final String[] toCheck = Config.console_filter_list.toArray(new String[0]);
 
     public Filter.Result filter(LogEvent paramLogEvent) {
         Filter.Result result = Filter.Result.ACCEPT;

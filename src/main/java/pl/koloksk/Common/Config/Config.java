@@ -1,8 +1,8 @@
-package pl.koloksk.Common.utils;
+package pl.koloksk.Common.Config;
 
 import java.util.List;
 
-public class Settings {
+public class Config {
     public static String permissions_admin;
     public static String permissions_bypass;
 
@@ -38,8 +38,18 @@ public class Settings {
 
     public static boolean integration_discord_enabled;
     public static String integration_discord_url;
+    public static String integration_discord_title;
+    public static String integration_discord_avatar;
+    public static String integration_discord_username;
+    public static String integration_discord_description;
+    public static String integration_discord_footer;
 
     public static boolean debug;
+
+    public static boolean console_filter_enabled;
+    public static boolean console_filter_only_attack;
+    public static List<String>  console_filter_list;
+
 
 
 }

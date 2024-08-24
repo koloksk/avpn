@@ -8,7 +8,7 @@ import pl.koloksk.Bukkit.Main;
 import pl.koloksk.Common.Detection.CheckManager;
 import pl.koloksk.Common.Detection.CheckResults;
 import pl.koloksk.Common.Discord.Discord;
-import pl.koloksk.Common.utils.Settings;
+import pl.koloksk.Common.Config.Config;
 import pl.koloksk.Common.utils.StoreData;
 
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class AsyncPlayerPreLoginEvent implements Listener {
         }*/
         if(Main.AuthmeStatus) {
             AuthMeApi authmeApi = AuthMeApi.getInstance();
-            if (StoreData.attack && Settings.integration_authme_enabled && !authmeApi.isRegistered(nick)) {
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.integration_authme_kick);
+            if (StoreData.attack && Config.integration_authme_enabled && !authmeApi.isRegistered(nick)) {
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.integration_authme_kick);
             }
         }
 
@@ -46,13 +46,13 @@ public class AsyncPlayerPreLoginEvent implements Listener {
             StoreData.blocked++;
             StoreData.ilosc_blokad++;
             if(result == CheckResults.COUNTRY)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_country);
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.Messages_country);
             if(result == CheckResults.VPN)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_vpn);
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.Messages_vpn);
             if(result == CheckResults.NICK)
-                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Settings.Messages_nick);
-            if(Settings.integration_discord_enabled && !StoreData.attack) {
-                Discord.sendDiscord(Settings.integration_discord_url, nick, ip);
+                e.disallow(org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Config.Messages_nick);
+            if(Config.integration_discord_enabled && !StoreData.attack) {
+                Discord.sendDiscord(Config.integration_discord_url, nick, ip);
             }
 
 
