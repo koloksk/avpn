@@ -1,4 +1,9 @@
+<p align="center">
+  <img src="https://i.imgur.com/51omBIo.png" width="200"/>
+</p>
+
 # AVPN - Automatic VPN and Proxy Detection for Minecraft Servers
+
 
 **AVPN** is a comprehensive and advanced plugin for Minecraft servers that automatically detects players using VPN and proxy services, blocking their access to the server. With AVPN, you can effectively secure your server against unwanted users, bots, and attempts to bypass security measures.
 
